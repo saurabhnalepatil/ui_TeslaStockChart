@@ -35,9 +35,11 @@ export type ChartOptions = {
 
 export class HomeComponent implements OnInit {
   stockDataList: Array<DataModel> = [];
+  stockDataListFilter: Array<DataModel> = [];
   stockData: DataModel = new DataModel();
   itemIndex: number = 1;
   itemPerPage: number = 10;
+  massage: string = '';
   Dates: Date[];
   Open: Number[];
   Close: Number[];
@@ -150,5 +152,32 @@ export class HomeComponent implements OnInit {
       }
     );
   }
-
+  filterTable() {
+    debugger;
+    if (this.stockData.search) {
+      this.stockDataList = this.stockDataList.filter(
+        (data) => data.RowKey.includes(this.stockData.search)
+      );
+    } else {
+      this.getDataFromAzure();
+    }
+  }
+  sendMessageQueue() {
+    debugger;
+    this.master.sendMessageQueue(this.stockData).subscribe(
+      (result) => {
+        if (result) {
+          debugger;
+          this.toastr.success('Message inserted into the queue successfully', 'Success');
+          this.stockData = new DataModel();
+          this.getDataFromAzure();
+        } else {
+          this.toastr.warning('Data addition failed!', 'Warning');
+        }
+      },
+      (err) => {
+        this.toastr.error('Failed to add data!', 'Error');
+      }
+    );
+  }
 }

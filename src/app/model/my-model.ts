@@ -8,4 +8,6 @@ export class DataModel {
     Volume: number;
     RowKey: string = '';
     PartitionKey: string = "TSLA";
+    search: string = '';
+    message: string = '';
 }

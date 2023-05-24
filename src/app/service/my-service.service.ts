@@ -12,7 +12,8 @@ export class MyServiceService {
   constructor(private http: HttpClient) { }
   getDataStock: string = 'get_data';
   updateDataStock: string = 'update_data';
-  addDataStock: string = 'insert_single_data'
+  addDataStock: string = 'insert_single_data';
+  sendmessage: string = 'insert-message';
 
   getStockData() {
     debugger;
@@ -27,6 +28,11 @@ export class MyServiceService {
   addNewStockData(data: DataModel) {
     debugger;
     const url = `${this.endPointURL}${this.addDataStock}`;
+    return this.http.post(url, data);
+  }
+  sendMessageQueue(data: DataModel) {
+    debugger;
+    const url = `${this.endPointURL}${this.sendmessage}`;
     return this.http.post(url, data);
   }
 }

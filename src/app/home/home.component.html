@@ -1,14 +1,12 @@
 <div class="container-flex">
-    <div class="container mt-5">
-        <!-- <div class="row">
-            <div class="col-sm-12">
-                <form class="d-flex" style="width: 300px;">
-                    <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-                    <button class="btn btn-outline-success" type="submit">Search</button>
-                </form>
-
+    <div class="container mt-2">
+        <div class="row Search">
+            <div class="col-sm-7">
+                <input type="date" format="yy-mm-dd" [(ngModel)]="this.stockData.search"
+                    placeholder="Search data by date">
+                <button (click)="filterTable()">Search</button>
             </div>
-        </div> -->
+        </div>
         <div class="row mt-3">
             <div class="col">
                 <table class="table table-striped table-bordered">
@@ -26,8 +24,8 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr *ngFor="let data of stockDataList | paginate
-                      : {itemsPerPage: itemPerPage, currentPage: itemIndex};, let idx = index">
+                        <tr
+                            *ngFor="let data of stockDataList | paginate: { itemsPerPage: itemPerPage, currentPage: itemIndex } let idx = index">
                             <td style="text-align: center;">{{(idx+1)}}</td>
                             <td>{{data.RowKey}}</td>
                             <td>{{data.Open}}</td>
@@ -74,6 +72,44 @@
 
     </div>
 </div>
+
+<div class="container-flex queue mt-3 overflow-hidden">
+    <div class="row">
+        <div class="col ms-5" style="font-size: 40px;font-weight: 500; text-align: center;">
+            ☆ Insert queue massage ☆
+        </div>
+
+    </div>
+    <div class="container mt-3">
+        <div class="row">
+            <div class="col-sm-6 card-body">
+                <ul>
+                    <li>If you have received the data in the table and entered the message in the input box, you can
+                        send
+                        it.</li>
+                    <li>There is a queue connected to the input box, and your message will trigger the insertion of the
+                        message
+                        into the Azure queue.</li>
+                    <li>The function called 'queue trigger function' will start working.</li>
+                    <li>The first step of this function is to delete all entities in the table.</li>
+                    <li>After deletion, the function will seed new data into the table.</li>
+                </ul>
+            </div>
+            <div class="col-6">
+                <div class="row">
+                    <div class="col massage">
+                        <textarea id="description" [(ngModel)]="this.stockData.message"
+                            placeholder="Enter your message"></textarea>
+                    </div>
+                    <div class="col mt-2">
+                        <button class="btn btn-dark" (click)="sendMessageQueue()">Send message</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
 
 <div class="modal fade" id="modal-Add-New">
     <div class="modal-dialog">
