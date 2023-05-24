@@ -1,0 +1,254 @@
+<div class="container-flex">
+    <div class="container mt-5">
+        <!-- <div class="row">
+            <div class="col-sm-12">
+                <form class="d-flex" style="width: 300px;">
+                    <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+                    <button class="btn btn-outline-success" type="submit">Search</button>
+                </form>
+
+            </div>
+        </div> -->
+        <div class="row mt-3">
+            <div class="col">
+                <table class="table table-striped table-bordered">
+                    <thead class="bg-dark" style="color: white; text-align: center;">
+                        <tr>
+                            <th scope="col">Sr No</th>
+                            <th scope="col">Date</th>
+                            <th scope="col">Open</th>
+                            <th scope="col">High</th>
+                            <th scope="col">Low</th>
+                            <th scope="col">Close</th>
+                            <th scope="col">Adj Close</th>
+                            <th scope="col">Volume</th>
+                            <th scope="col">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let data of stockDataList | paginate
+                      : {itemsPerPage: itemPerPage, currentPage: itemIndex};, let idx = index">
+                            <td style="text-align: center;">{{(idx+1)}}</td>
+                            <td>{{data.RowKey}}</td>
+                            <td>{{data.Open}}</td>
+                            <td>{{data.High}}</td>
+                            <td>{{data.Low}}</td>
+                            <td>{{data.Close}}</td>
+                            <td>{{data.Adj_Close}}</td>
+                            <td>{{data.Volume}}</td>
+                            <td style="text-align: center;"><i class="fa-solid fa-pen-to-square" data-bs-toggle="modal"
+                                    data-bs-target="#modal-update" (click)="findDataById(data.RowKey)"></i></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-6">
+                <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modal-Add-New">Add new</button>
+            </div>
+            <div class="col-6" style="text-align: end;">
+                <pagination-controls (pageChange)="itemIndex = $event">
+                </pagination-controls>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="container-flex mt-5 overflow-hidden">
+    <div class="row">
+        <div class="col ms-5" style="font-size: 60px;font-weight: 500; text-align: center;">
+            ☆ TSLA stock chart ☆
+        </div>
+    </div>
+    <div class="row   justify-content-center">
+
+        <div class="col-md-10 ">
+            <div>
+                <apx-chart [series]="dummy.series" [chart]="dummy.chart" [xaxis]="dummy.xaxis" [yaxis]="dummy.yaxis"
+                    [tooltip]="dummy.tooltip" [plotOptions]="dummy.plotOptions" [title]="dummy.title"></apx-chart>
+            </div>
+        </div>
+
+
+    </div>
+</div>
+
+<div class="modal fade" id="modal-Add-New">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title pull-left">Add new</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row" style="margin-bottom: 8px">
+                    <div class="col-sm-4">
+                        <label><b>Date</b></label>
+                    </div>
+                    <div class="col-sm-6">
+                        <input type="date" format="yy-mm-dd" [(ngModel)]="this.stockData.RowKey"
+                            style="width: 100%; height: 33px">
+                    </div>
+                </div>
+                <div class="row" style="margin-bottom: 8px">
+                    <div class="col-sm-4">
+                        <label><b>Open</b></label>
+                    </div>
+                    <div class="col-sm-6">
+                        <input type="number" [(ngModel)]="this.stockData.Open" class="form-control"
+                            placeholder="Open" />
+                    </div>
+                </div>
+                <div class="row" style="margin-bottom: 8px">
+                    <div class="col-sm-4">
+                        <label><b>High</b></label>
+                    </div>
+                    <div class="col-sm-6">
+                        <input type="number" [(ngModel)]="this.stockData.High" class="form-control"
+                            placeholder="High" />
+                    </div>
+                </div>
+
+                <div class="row" style="margin-bottom: 8px">
+                    <div class="col-sm-4">
+                        <label><b>Low</b></label>
+                    </div>
+                    <div class="col-sm-6">
+                        <input type="number" [(ngModel)]="this.stockData.Low" class="form-control" placeholder="Low" />
+                    </div>
+                </div>
+
+                <div class="row" style="margin-bottom: 8px">
+                    <div class="col-sm-4">
+                        <label><b>Close</b></label>
+                    </div>
+                    <div class="col-sm-6">
+                        <label>
+                            <input type="number" [(ngModel)]="this.stockData.Close" class="form-control"
+                                placeholder="Close" />
+                        </label>
+                    </div>
+                </div>
+                <div class="row" style="margin-bottom: 8px">
+                    <div class="col-sm-4">
+                        <label><b>Adj Close</b></label>
+                    </div>
+                    <div class="col-sm-6">
+                        <label>
+                            <input type="number" [(ngModel)]="this.stockData.Adj_Close" class="form-control"
+                                placeholder="Adj Close" />
+                        </label>
+                    </div>
+                </div>
+                <div class="row" style="margin-bottom: 8px">
+                    <div class="col-sm-4">
+                        <label><b>Volume</b></label>
+                    </div>
+                    <div class="col-sm-6">
+                        <label>
+                            <input type="text" [(ngModel)]="this.stockData.Volume" class="form-control"
+                                placeholder="Volume" />
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default pull-left" data-bs-dismiss="modal" (click)=" blankData()">
+                    Close
+                </button>
+                <button type="button" (click)="addNewStockData()" class="btn btn-primary" data-bs-dismiss="modal">Save
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="modal-update">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title pull-left">Update</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row" style="margin-bottom: 8px">
+                    <div class="col-sm-4">
+                        <label><b>Date</b></label>
+                    </div>
+                    <div class="col-sm-6">
+                        <input type="date" [(ngModel)]="this.stockData.RowKey" [readonly]="true"
+                            style="width: 100%; height: 33px">
+                    </div>
+                </div>
+                <div class="row" style="margin-bottom: 8px">
+                    <div class="col-sm-4">
+                        <label><b>Open</b></label>
+                    </div>
+                    <div class="col-sm-6">
+                        <input type="number" [(ngModel)]="this.stockData.Open" class="form-control"
+                            placeholder="Open" />
+                    </div>
+                </div>
+                <div class="row" style="margin-bottom: 8px">
+                    <div class="col-sm-4">
+                        <label><b>High</b></label>
+                    </div>
+                    <div class="col-sm-6">
+                        <input type="number" [(ngModel)]="this.stockData.High" class="form-control"
+                            placeholder="High" />
+                    </div>
+                </div>
+
+                <div class="row" style="margin-bottom: 8px">
+                    <div class="col-sm-4">
+                        <label><b>Low</b></label>
+                    </div>
+                    <div class="col-sm-6">
+                        <input type="number" [(ngModel)]="this.stockData.Low" class="form-control" placeholder="Low" />
+                    </div>
+                </div>
+
+                <div class="row" style="margin-bottom: 8px">
+                    <div class="col-sm-4">
+                        <label><b>Close</b></label>
+                    </div>
+                    <div class="col-sm-6">
+                        <label>
+                            <input type="number" [(ngModel)]="this.stockData.Close" class="form-control"
+                                placeholder="Close" />
+                        </label>
+                    </div>
+                </div>
+                <div class="row" style="margin-bottom: 8px">
+                    <div class="col-sm-4">
+                        <label><b>Adj Close</b></label>
+                    </div>
+                    <div class="col-sm-6">
+                        <label>
+                            <input type="number" [(ngModel)]="this.stockData.Adj_Close" class="form-control"
+                                placeholder="Adj Close" />
+                        </label>
+                    </div>
+                </div>
+                <div class="row" style="margin-bottom: 8px">
+                    <div class="col-sm-4">
+                        <label><b>Volume</b></label>
+                    </div>
+                    <div class="col-sm-6">
+                        <label>
+                            <input type="number" [(ngModel)]="this.stockData.Volume" class="form-control"
+                                placeholder="Volume" />
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default pull-left" data-bs-dismiss="modal" (click)=" blankData()">
+                    Close
+                </button>
+                <button type="button" class="btn btn-primary" data-bs-dismiss="modal" (click)="updateStockData()">Save
+                    changes</button>
+            </div>
+        </div>
+    </div>
+</div>
